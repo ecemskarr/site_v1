@@ -352,6 +352,11 @@
                         <i class="fa fa-th"></i> <span>Haberler</span>
 					</a>
                 </li>
+                <li>
+                     <a href="iletisim.php">
+                        <i class="fa fa-th"></i> <span>İletişim</span>
+					</a>
+                </li>
 			</ul>
         </section>
 
