@@ -114,8 +114,8 @@ $anasayfa=DB::getRow("SELECT * FROM anasayfa WHERE id=2");
                                 <!-- layer 3 -->
                                 <div class="layer-1-3 hidden-xs wow slideInUp" data-wow-duration="2s"
                                     data-wow-delay=".2s">
-                                    <a class="ready-btn right-btn page-scroll" href="#services">See Services</a>
-                                    <a class="ready-btn page-scroll" href="#about">Learn More</a>
+                                    <a class="ready-btn right-btn page-scroll" href="#services">Hizmetlerimizi Görüntüleyin</a>
+                                    <a class="ready-btn page-scroll" href="#about">Daha Fazla Bilgi Edinin</a>
                                 </div>
                             </div>
                         </div>
@@ -141,8 +141,8 @@ $anasayfa=DB::getRow("SELECT * FROM anasayfa WHERE id=2");
                                 <!-- layer 3 -->
                                 <div class="layer-1-3 hidden-xs wow slideInUp" data-wow-duration="2s"
                                     data-wow-delay=".2s">
-                                    <a class="ready-btn right-btn page-scroll" href="#services">See Services</a>
-                                    <a class="ready-btn page-scroll" href="#about">Learn More</a>
+                                    <a class="ready-btn right-btn page-scroll" href="#services">Hizmetlerimizi Görüntüleyin</a>
+                                    <a class="ready-btn page-scroll" href="#about">Daha fazla bilgi edinin</a>
                                 </div>
                             </div>
                         </div>
@@ -327,9 +327,9 @@ $calismalarim=DB::get("SELECT * FROM galeri");
                 </a>
             </div>
             <div class="work-right-text text-center">
-                <h2>working with us</h2>
-                <h5>Web Design, Ready Home, Construction and Co-operate Outstanding Buildings.</h5>
-                <a href="iletisim.php" class="ready-btn">Contact us</a>
+                <h2>Step Soft Yazılım</h2>
+                <h5>Amacımız, şirketlerin yaratılan yazılım programlarından yararlanabilmesi ve uzun süre başarılı olabilmesi için doğru zamanda doğru iş büyütme hizmetlerini sunmaktır.</h5>
+                <a href="iletisim.php" class="ready-btn">Bizimle İletişime Geçin</a>
             </div>
         </div>
     </div>
@@ -407,61 +407,7 @@ $categories = DB::get("select * from kategoriler");
     </div>
     <!-- awesome-portfolio end -->
 
-    <!-- Start Testimonials -->
-    <div class="testimonials-area">
-        <div class="testi-inner area-padding">
-            <div class="testi-overly"></div>
-            <div class="container ">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <!-- Start testimonials Start -->
-                        <div class="testimonial-content text-center">
-                            <a class="quate" href="#"><i class="fa fa-quote-right"></i></a>
-                            <!-- start testimonial carousel -->
-                            <div class="testimonial-carousel">
-                                <div class="single-testi">
-                                    <div class="testi-text">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar luctus
-                                            est eget congue.<br>consectetur adipiscing elit. Sed pulvinar luctus est
-                                            eget congue.
-                                        </p>
-                                        <h6>Boby</h6>
-                                    </div>
-                                </div>
-                                <!-- End single item -->
-                                <div class="single-testi">
-                                    <div class="testi-text">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar luctus
-                                            est eget congue.<br>consectetur adipiscing elit. Sed pulvinar luctus est
-                                            eget congue.
-                                        </p>
-                                        <h6>Jhon</h6>
-                                    </div>
-                                </div>
-                                <!-- End single item -->
-                                <div class="single-testi">
-                                    <div class="testi-text">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar luctus
-                                            est eget congue.<br>consectetur adipiscing elit. Sed pulvinar luctus est
-                                            eget congue.
-                                        </p>
-                                        <h6>Fleming</h6>
-                                    </div>
-                                </div>
-                                <!-- End single item -->
-                            </div>
-                        </div>
-                        <!-- End testimonials end -->
-                    </div>
-                    <!-- End Right Feature -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Testimonials -->
+    
     <!-- Start Blog Area -->
     <?php
 $calismalarim=DB::get("select * from haber")
