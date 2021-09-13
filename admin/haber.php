@@ -67,7 +67,7 @@ forcePasteAsPlainText: true
     <div class="col-md-12">
         <div class="row">
             <div class="box">
-                <div class="box-header">Haberler</div>
+                <div class="box-header">Haberler Listesi</div>
                 <div class="box-body">
                     <table class="table table-sprited">
                         <thead>
