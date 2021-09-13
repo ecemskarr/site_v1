@@ -25,7 +25,7 @@ $iletisim = DB::getRow("SELECT * FROM iletisim WHERE id=1");
                             <textarea name="tel" class="form-control"><?=$iletisim->tel; ?></textarea>
                         </div>
                         <div class="form-group">
-                            <label> E-mail</label>
+                            <label> Email</label>
                             <textarea name="email" class="form-control"><?=$iletisim->email; ?></textarea>
                         </div>
                         <div class="form-group">
