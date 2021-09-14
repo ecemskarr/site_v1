@@ -10,6 +10,9 @@
 
 
 // eğer giriş yapılmış ise dashboard sayfasına yönlendir
-
+if(isset($_POST[kullanicikaydet]))
+{
+    echo "doğru yer";
+}
 
 ?>

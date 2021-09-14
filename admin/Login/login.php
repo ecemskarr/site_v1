@@ -108,7 +108,7 @@ else{
 						Hesabınız yok mu ?
 						</span>
 
-						<a class="txt2" href="#">
+						<a class="txt2" href="kayit.php">
 							Kayıt Olun
 						</a>
 					</div>

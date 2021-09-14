@@ -472,11 +472,11 @@ foreach($calismalarim as $row){
 
 
     
+    
 
-
-    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a> 
   
-    <?php include 'footer.php'; ?>
+   <?php include 'footer.php'; ?>
     <!-- JavaScript Libraries -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
