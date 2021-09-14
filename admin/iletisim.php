@@ -33,6 +33,10 @@ $iletisim = DB::getRow("SELECT * FROM iletisim WHERE id=1");
                             <textarea name="adres" class="form-control"><?=$iletisim->adres; ?></textarea>
                         </div>
                         <div class="form-group">
+                            <label> Harita </label>
+                            <textarea name="map" class="form-control"><?=$iletisim->map; ?></textarea>
+                        </div>
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Güncelle</button>
                         </div>
                     </form>
