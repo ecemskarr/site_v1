@@ -471,11 +471,12 @@ foreach($calismalarim as $row){
     <!-- End Blog -->
 
 
-    <?php include 'footer.php'; ?>
+    
 
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-
+  
+    <?php include 'footer.php'; ?>
     <!-- JavaScript Libraries -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
@@ -493,6 +494,7 @@ foreach($calismalarim as $row){
     <script src="contactform/contactform.js"></script>
 
     <script src="js/main.js"></script>
+   
 </body>
 
 </html>
