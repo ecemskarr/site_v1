@@ -5,13 +5,13 @@
 </head>
 
 
-    <section class="content-header">
+<section class="content-header">
         <h1>
-            Dashboard
-            <small>Version 2.0</small>
+        Admin Paneli
+           
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>Anasayfa</a></li>
             <li class="active">Dashboard</li>
         </ol>
     </section>
@@ -28,7 +28,7 @@ $anasayfa = DB::getRow("SELECT * FROM hakkimizda WHERE id=1");
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Anasayfa Ayarları</div>
+<div class="box-header">Hakkımızda Ayarları</div>
 <div class="box-body">
 <form action="" method="post" >
 
