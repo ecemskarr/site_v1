@@ -10,38 +10,32 @@
             <li class="active">Dashboard</li>
         </ol>
     </section>
+    <html>
+        <body>
+            <style>
+                    .center
+{
+   position: absolute;
+
+   right: 0px;
+
+   
+
+   
+}
+            </style>
+        </body>
+    </html>
 
     <!-- Main content -->
+    
     <section class="content">
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Referans Ayarları</div>
-<div class="box-body">
-<form action="" method="post" enctype="multipart/form-data">
-
-
-<div class="form-group">
-    <label >Kategori Adı</label>
-    <textarea name="kategoriAd" class="form-control" placeholder="Kategori Adı Giriniz"></textarea>
+<div class="box-header">Referanslar
+<button type="submit" class="btn btn-primary center" onclick="window.location.href='referansKategori-ekle.php';"> Yeni Kayıt Ekle</button>
 </div>
-
-
-<div class="form-group">
-<button type="submit" class="btn btn-primary">Ekle</button>
-</div>
-</form>
-</div>
-             </div>
-            </div>
-        </div>
-
-    </section>
-    <section class="content">
-        <div class="col-md-12">
-            <div class="row">
-             <div class="box">
-<div class="box-header">Referanslar</div>
 <div class="box-body">
 <table class="table table-sprited">
     <thead>
@@ -93,32 +87,6 @@ if(@$_GET["sil"])
 
 
 
-if($_POST)
-{
-
-    $ekle=DB::prepare("INSERT INTO kategoriler SET 
-                    
-                     
-                     kategoriAd=:kategoriAd
-                   
-                    ");
-$ekle->execute([
-    
-  
-    "kategoriAd" => $_POST["kategoriAd"]
-   
- 
-]);
-if($ekle){
-    echo "Ekleme işlemi başarılı";
-}
-else{
-    echo "Bir hata oluştu";
-}
-
-
-
-}
 
 
 

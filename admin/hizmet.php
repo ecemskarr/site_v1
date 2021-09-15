@@ -10,46 +10,33 @@
             <li class="active">Dashboard</li>
         </ol>
     </section>
+    <html>
+        <body>
+            <style>
+                    .center
+{
+   position: absolute;
+
+   right: 0px;
+
+   
+
+   
+}
+            </style>
+        </body>
+    </html>
+
 
     <!-- Main content -->
+    
     <section class="content">
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Hizmetlerimiz Ayarları</div>
-<div class="box-body">
-<form action="" method="post" enctype="multipart/form-data">
-
-
-
-
-
-
-
-<div class="form-group">
-    <label >Hizmet Adı</label>
-    <textarea name="hizmetAdi" class="form-control" placeholder="Hizmet Adı Giriniz"></textarea>
+<div class="box-header">Hizmetlerimiz
+<button type="submit" class="btn btn-primary center" onclick="window.location.href='hizmet-ekle.php';"> Yeni Kayıt Ekle</button>
 </div>
-<div class="form-group">
-    <label >Hizmet Açıklama</label>
-    <textarea name="hizmetAciklama" class="form-control" placeholder="Hizmet Açıklama Giriniz"></textarea>
-</div>
-
-<div class="form-group">
-<button type="submit" class="btn btn-primary">Ekle</button>
-</div>
-</form>
-</div>
-             </div>
-            </div>
-        </div>
-
-    </section>
-    <section class="content">
-        <div class="col-md-12">
-            <div class="row">
-             <div class="box">
-<div class="box-header">Hizmetlerimiz</div>
 <div class="box-body">
 <table class="table table-sprited">
     <thead>
@@ -103,33 +90,6 @@ if(@$_GET["sil"])
 
 
 
-if($_POST)
-{
-
-
-    $ekle=DB::prepare("INSERT INTO hizmetlerimiz SET 
-                    
-                    hizmetAdi=:hizmetAdi,
-                    hizmetAciklama=:hizmetAciklama
-                   
-                    ");
-$ekle->execute([
-    
-    "hizmetAdi" => $_POST["hizmetAdi"],
-    "hizmetAciklama" => $_POST["hizmetAciklama"]
-   
- 
-]);
-if($ekle){
-    echo "Ekleme işlemi başarılı";
-}
-else{
-    echo "Bir hata oluştu";
-}
-
-
-
-}
 
 
 
