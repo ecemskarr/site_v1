@@ -445,7 +445,7 @@ foreach($calismalarim as $row){
     
     
 
-   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a> 
+   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>  
   
    <?php include 'footer.php'; ?>
     <!-- JavaScript Libraries -->
