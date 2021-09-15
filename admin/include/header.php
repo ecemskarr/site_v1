@@ -1,6 +1,6 @@
 <?php require '../connection.php';
  
-
+ob_start();
 
 ?>
 

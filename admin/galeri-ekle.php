@@ -1,4 +1,8 @@
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php'; 
+
+ob_start();
+
+?>
 
 <section class="content">
         <div class="col-md-12">
@@ -47,6 +51,10 @@ $ekle->execute([
 ]);
 if($ekle){
     echo "Ekleme işlemi başarılı";
+
+   
+   header("location:galeri.php");
+   
 }
 else{
     echo "Bir hata oluştu";

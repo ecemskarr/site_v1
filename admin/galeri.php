@@ -1,5 +1,9 @@
 
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php'; 
+
+
+
+?>
 <section class="content-header">
         <h1>
         Admin Paneli
@@ -90,33 +94,7 @@ if(@$_GET["sil"])
 
 
 
-if($_POST)
-{
-$resimAdi=$_FILES["resim"]["name"];
-$resimYolu="assets/upload/".$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
-{
-    $ekle=DB::prepare("INSERT INTO galeri SET 
-                     resim=:resim,
-                    aciklama=:aciklama
-                   
-                    ");
-$ekle->execute([
-    "resim"  => $resimAdi,
-    "aciklama" => $_POST["aciklama"]
-   
- 
-]);
-if($ekle){
-    echo "Ekleme işlemi başarılı";
-}
-else{
-    echo "Bir hata oluştu";
-}
-}
 
-
-}
 
 
 
@@ -124,5 +102,5 @@ else{
 
 
 
-    <!-- /.content -->
+    
 <?php include 'include/footer.php'; ?>
