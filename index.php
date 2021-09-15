@@ -125,7 +125,7 @@ $anasayfa=DB::getRow("SELECT * FROM anasayfa WHERE id=2");
                 </div>
                 <!-- layer 2 -->
                 <div class="layer-1-2 wow slideInUp" data-wow-duration="2s" data-wow-delay=".1s">
-                  <h1 class="title2"><?= $anasayfa->aciklama ?><</h1>
+                  <h1 class="title2"><?= $anasayfa->aciklama ?></h1>
                 </div>
                 <!-- layer 3 -->
                 <div class="layer-1-3 hidden-xs wow slideInUp" data-wow-duration="2s" data-wow-delay=".2s">
