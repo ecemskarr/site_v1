@@ -13,18 +13,19 @@
                 <p>Amacımız, şirketlerin yaratılan yazılım programlarından yararlanabilmesi ve uzun süre başarılı olabilmesi için doğru zamanda doğru iş büyütme hizmetlerini sunmaktır.</p>
                 <div class="footer-icons">
                   <ul>
+                  <?php 
+$iletisim = DB::getRow("SELECT * FROM iletisim ");
+?>
                     <li>
-                      <a href="#"><i class="fa fa-facebook"></i></a>
+                      <a href="<?=$iletisim->facebook?>"><i class="fa fa-facebook"></i></a>
                     </li>
                     <li>
-                      <a href="#"><i class="fa fa-twitter"></i></a>
+                      <a href="<?=$iletisim->twitter?>"><i class="fa fa-twitter"></i></a>
                     </li>
                     <li>
-                      <a href="#"><i class="fa fa-google"></i></a>
+                      <a href="<?=$iletisim->google?>"><i class="fa fa-google"></i></a>
                     </li>
-                    <li>
-                      <a href="#"><i class="fa fa-pinterest"></i></a>
-                    </li>
+                    
                   </ul>
                 </div>
               </div>
@@ -39,8 +40,8 @@
                  7/24 Destek
                 </p>
                 <div class="footer-contacts">
-                  <p><span>Tel:</span> +123 456 789</p>
-                  <p><span>Email:</span> info@stepsoft.com.tr</p>
+                  <p><span>Tel:</span> <?=$iletisim->tel; ?></p>
+                  <p><span>Email:</span> <?=$iletisim->email; ?></p>
                   <p><span>Çalışma Saatleri:</span> 8:30-17:30</p>
                 </div>
               </div>

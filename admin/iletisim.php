@@ -37,6 +37,18 @@ $iletisim = DB::getRow("SELECT * FROM iletisim WHERE id=1");
                             <textarea name="map" class="form-control"><?=$iletisim->map; ?></textarea>
                         </div>
                         <div class="form-group">
+                            <label> Facebook </label>
+                            <textarea name="facebook" class="form-control"><?=$iletisim->facebook; ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label> Twitter </label>
+                            <textarea name="twitter" class="form-control"><?=$iletisim->twitter; ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label> Google </label>
+                            <textarea name="google" class="form-control"><?=$iletisim->google; ?></textarea>
+                        </div>
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Güncelle</button>
                         </div>
                     </form>
@@ -49,12 +61,14 @@ $iletisim = DB::getRow("SELECT * FROM iletisim WHERE id=1");
 <?php 
 
 if($_POST){
-    $guncelle= DB::prepare("UPDATE iletisim SET tel=:tel, email=:email, adres=:adres WHERE id=:id");
+    $guncelle= DB::prepare("UPDATE iletisim SET tel=:tel, email=:email, adres=:adres, facebook=:facebook, twitter=:twitterr, google=:google WHERE id=:id");
     $guncelle->execute([
         "tel" => $_POST["tel"],
         "email" => $_POST["email"],
         "adres" => $_POST["adres"],
-
+        "facebook" => $_POST["facebook"],
+        "twitter" => $_POST["twitter"],
+        "google" => $_POST["google"],
         "id" => 1
     ]);
     if($guncelle){
