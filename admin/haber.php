@@ -87,7 +87,7 @@ forcePasteAsPlainText: true
            ?>
                             <tr>
                                 <td><?=$row->id?></td>
-                                <td><?=$row->resim?></td>
+                                <td><img src="assets/upload/<?= $row->resim ?>" width=100></td>
                                 <td><?=$row->baslik?></td>
                                 <td><?=$row->aciklama?></td>
                                 <td><?=$row->zaman?></td>
