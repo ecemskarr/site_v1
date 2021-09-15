@@ -12,36 +12,33 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
-        <div class="col-md-12">
-            <div class="row">
-             <div class="box">
-<div class="box-header">Galeri Ayarları</div>
-<div class="box-body">
-<form action="" method="post" enctype="multipart/form-data">
-<div class="form-group">
-    <label > Resim</label>
-    <input type="file" name="resim" >
-</div>
-<div class="form-group">
-    <label > Açıklama</label>
-    <textarea name="aciklama" class="form-control" placeholder="Açıklama Giriniz"></textarea>
-</div>
-<div class="form-group">
-<button type="submit" class="btn btn-primary">Ekle</button>
-</div>
-</form>
-</div>
-             </div>
-            </div>
-        </div>
+    <html>
+        <body>
+            <style>
+                    .center
+{
+   position: absolute;
 
-    </section>
+   right: 0px;
+
+   
+
+   
+}
+            </style>
+        </body>
+    </html>
+
+   
     <section class="content">
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Galeri</div>
+<div class="box-header">Galeri 
+
+<button type="submit" class="btn btn-primary center" onclick="window.location.href='galeri-ekle.php';"> Yeni Kayıt Ekle</button>
+
+</div>
 <div class="box-body">
 <table class="table table-sprited">
     <thead>
