@@ -25,4 +25,41 @@
         </div>
 
     </section>
+
+<?php 
+
+if($_POST)
+{
+$resimAdi=$_FILES["resim"]["name"];
+$resimYolu="assets/upload/".$resimAdi;
+if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
+{
+    $ekle=DB::prepare("INSERT INTO galeri SET 
+                     resim=:resim,
+                    aciklama=:aciklama
+                   
+                    ");
+$ekle->execute([
+    "resim"  => $resimAdi,
+    "aciklama" => $_POST["aciklama"]
+   
+ 
+]);
+if($ekle){
+    echo "Ekleme işlemi başarılı";
+}
+else{
+    echo "Bir hata oluştu";
+}
+}
+
+
+}
+
+
+
+?>
+
+
+    
     <?php include 'include/footer.php'; ?>
