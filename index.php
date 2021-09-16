@@ -271,7 +271,7 @@ $calismalarim=DB::get("SELECT * FROM galeri");
             <div class="single-team-member">
               <div class="team-img">
                 <a href="#">
-										<img src="admin/assets/upload/<?= $row->resim ?>" alt="">
+										<img src="admin/galeri/<?= $row->resim ?>" alt="">
 									</a>
               </div>
               <div class="team-content text-center">
@@ -355,11 +355,11 @@ $categories = DB::get("select * from kategoriler");
                     <div class="col-md-4 col-sm-4 col-xs-12 <?php echo "kategori_" . $row->kategori_id ?>">
                         <div class="single-awesome-project">
                             <div class="awesome-img">
-                                <a href="#"><img src="admin/assets/upload/<?=$row->resim?>" alt="" /></a>
+                                <a href="#"><img src="admin/referanslar/<?=$row->resim?>" alt="" /></a>
                                 <div class="add-actions text-center">
                                     <div class="project-dec">
                                         <a class="venobox" data-gall="myGallery"
-                                            href="admin/assets/upload/<?=$row->resim?>">
+                                            href="admin/referanslar/<?=$row->resim?>">
 
                                         </a>
                                     </div>
@@ -405,7 +405,7 @@ foreach($calismalarim as $row){
                         <div class="single-blog">
                             <div class="single-blog-img">
                                 <a href="blog.php">
-                                    <img src="admin/assets/upload/<?= $row->resim ?>" alt="">
+                                    <img src="admin/haberler/<?= $row->resim ?>" alt="">
                                 </a>
                             </div>
                             <div class="blog-meta">

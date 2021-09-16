@@ -56,14 +56,14 @@
            ?>
                             <tr>
                                 <td><?=$row->id?></td>
-                                <td><img src="assets/upload/<?= $row->resim ?>" width=100></td>
+                                <td><img src="haberler/<?= $row->resim ?>" width=100></td>
                                 <td><?=$row->baslik?></td>
                                 <td><?=$row->aciklama?></td>
                                 <td><?=$row->zaman?></td>
                                 <td>
                                     <a href="haber-guncelle.php?id=<?=$row->id?>"><i
                                             class="fa fa-edit text-primary"></i></a>
-                                    <a href="?sil=<?=$row->id?>"><i class="fa fa-trash text-danger"></i></a>
+                                    <a href="?sil=<?=$row->id?>"onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
 
                                 </td>
                             </tr>
@@ -90,6 +90,9 @@ if(@$_GET["sil"])
     if($sil)
     {
         echo "silme işlemi başarılı";
+        echo "<script>";
+        echo "window.location.href='haber.php';";
+        echo "</script>";
     }
 }
 

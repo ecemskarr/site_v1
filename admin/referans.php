@@ -57,7 +57,7 @@
                <td><?=$row->referansAd?></td>
                <td>
                   <a href="referans-guncelle.php?referans_id=<?=$row->referans_id?>"><i class="fa fa-edit text-primary"></i></a>
-                   <a href="?sil=<?=$row->referans_id?>"><i class="fa fa-trash text-danger"></i></a>
+                   <a href="?sil=<?=$row->referans_id?>"onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
                   
                </td>
            </tr>
@@ -84,6 +84,10 @@ if(@$_GET["sil"])
     if($sil)
     {
         echo "silme işlemi başarılı";
+        echo "<script>";
+        echo "window.location.href='haber.php';";
+        echo "</script>";
+        
     }
 }
 

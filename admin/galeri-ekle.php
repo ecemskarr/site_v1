@@ -34,21 +34,29 @@ ob_start();
 
 if($_POST)
 {
+if(!file_exists("galeri"))
+{
+    mkdir("galeri");
+}
+
+$dizin="galeri/";
 $resimAdi=$_FILES["resim"]["name"];
-$resimYolu="assets/upload/".$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
+$yuklenecekResim=$dizin.$resimAdi;
+
+if(move_uploaded_file($_FILES["resim"]["tmp_name"],$yuklenecekResim))
 {
     $ekle=DB::prepare("INSERT INTO galeri SET 
-                     resim=:resim,
-                    aciklama=:aciklama
-                   
-                    ");
+    resim=:resim,
+   aciklama=:aciklama
+  
+   ");
 $ekle->execute([
-    "resim"  => $resimAdi,
-    "aciklama" => $_POST["aciklama"]
-   
- 
+"resim"  => $resimAdi,
+"aciklama" => $_POST["aciklama"]
+
+
 ]);
+}
 if($ekle){
     echo "Ekleme işlemi başarılı";
 
@@ -59,9 +67,6 @@ if($ekle){
 else{
     echo "Bir hata oluştu";
 }
-}
-
-
 }
 
 

@@ -53,9 +53,15 @@ forcePasteAsPlainText: true
 
 if($_POST)
 {
-$resimAdi=$_FILES["resim"]["name"];
-$resimYolu="assets/upload/".$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
+    if(!file_exists("haberler"))
+    {
+        mkdir("haberler");
+    }
+    
+    $dizin="haberler/";
+    $resimAdi=$_FILES["resim"]["name"];
+    $yuklenecekResim=$dizin.$resimAdi;
+if(move_uploaded_file($_FILES["resim"]["tmp_name"],$yuklenecekResim))
 {
     $ekle=DB::prepare("INSERT INTO haber SET 
                      resim=:resim,

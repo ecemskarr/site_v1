@@ -62,7 +62,7 @@
                <td><?=$row->aciklama?></td>
                <td>
                   <a href="galeri-guncelle.php?id=<?=$row->id?>"><i class="fa fa-edit text-primary"></i></a>
-                   <a href="?sil=<?=$row->id?>"><i class="fa fa-trash text-danger"></i></a>
+                   <a href="?sil=<?=$row->id?>" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
                   
                </td>
            </tr>
@@ -80,8 +80,8 @@
     </section>
 
 
-    <?php 
-
+    <?php
+   
 if(@$_GET["sil"])
 {
     $sil=DB::prepare("DELETE  FROM galeri WHERE id=:silinecekid");
@@ -89,9 +89,11 @@ if(@$_GET["sil"])
     if($sil)
     {
         echo "silme işlemi başarılı";
+        echo "<script>";
+        echo "window.location.href='galeri.php';";
+        echo "</script>";
     }
 }
-
 
 
 

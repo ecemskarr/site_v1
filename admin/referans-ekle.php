@@ -64,9 +64,15 @@ foreach($categories as $item) {
 <?php 
 if($_POST)
 {
-$resimAdi=$_FILES["resim"]["name"];
-$resimYolu="assets/upload/".$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
+    if(!file_exists("referanslar"))
+    {
+        mkdir("referanslar");
+    }
+    
+    $dizin="referanslar/";
+    $resimAdi=$_FILES["resim"]["name"];
+    $yuklenecekResim=$dizin.$resimAdi;
+if(move_uploaded_file($_FILES["resim"]["tmp_name"],  $yuklenecekResim))
 {
     $ekle=DB::prepare("INSERT INTO referans SET 
                      resim=:resim,
