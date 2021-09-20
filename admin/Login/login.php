@@ -2,6 +2,7 @@
  
  ob_start();
  session_start();
+ 
 
  if(isset($_SESSION['mail']))
  {
@@ -18,14 +19,18 @@ if(isset($_POST['admingiris']))
 
 	$mail=$_POST['mail'];
 	$password=md5($_POST['password']);
-	
 	$userQuery = DB::getRow("SELECT * FROM users WHERE mail='$mail' and password='$password'");
 
+	
 	// $dataCount=$userQuery->rowCount();
 
 if($userQuery->id > 0)
 {
 $_SESSION['mail']=$mail;
+$_SESSION['userId']=$userQuery->id;
+$_SESSION['id']=$userQuery->id;
+
+
 header("Location: ../anasayfa.php  ");
 exit;
 }

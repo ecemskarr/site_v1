@@ -405,7 +405,7 @@ foreach($calismalarim as $row){
                         <div class="single-blog">
                             <div class="single-blog-img">
                                 <a href="blog.php">
-                                    <img src="admin/haberler/<?= $row->resim ?>" alt="">
+                                    <img src="admin/haberler/<?= $row->resim ?>" alt="" >
                                 </a>
                             </div>
                             <div class="blog-meta">

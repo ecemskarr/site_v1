@@ -1,8 +1,7 @@
 
 <?php 
 include 'include/header.php'; 
-
-$userId = $_SESSION["userId"];                                    
+                                  
 ?>
 <section class="content-header">
         <h1>
@@ -37,42 +36,42 @@ $userId = $_SESSION["userId"];
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Galeri 
-<?php 
-$yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
-if(count ($yetki)>0){
-?>
-<button type="submit" class="btn btn-primary center" onclick="window.location.href='galeri-ekle.php';"> Yeni Kayıt Ekle</button>
-<?php } ?>
+<div class="box-header">Kullanıcılar
+<button type="submit" class="btn btn-primary center" onclick="window.location.href='kullanici-ekle.php';"> Yeni Kayıt Ekle</button>
+
 </div>
 <div class="box-body">
 <table class="table table-sprited">
     <thead>
         <th>#ID</th>
-        <th>Açıklama</th>
+        <th>Kullanıcı Adı</th>
+        <th>Şifre</th>
+        <th>Yetki</th>
+        <th>Adı Soyadı</th>
+        <th>Mail</th>
+        <th>Telefon</th>
         <th>İşlem</th>
     </thead>
     <tbody>
        <?php 
        
-       $calismalarim=DB::get("SELECT * FROM galeri ");
+       $calismalarim=DB::get("SELECT * FROM users ");
        foreach($calismalarim as $row)
        {
            ?>
            <tr>
                <td><?=$row->id?></td>
-               <td><?=$row->aciklama?></td>
+               <td><?=$row->username?></td>
+               <td><?=$row->password?></td>
+               <td><?=$row->permissions?></td>
+               <td><?=$row->full_name?></td>
+               <td><?=$row->mail?></td>
+               <td><?=$row->phone?></td>
                <td>
       
-                  <a href="galeri-guncelle.php?id=<?=$row->id?>"><i class="fa fa-edit text-primary"></i></a>
-                    <?php 
-                    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
-                    if(count ($yetki)>0){
-                    ?>
+                  <a href="kullanici-guncelle.php?id=<?=$row->id?>"><i class="fa fa-edit text-primary"></i></a>
                     <a href="?sil=<?=$row->id?>" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
-                    <?php
-                    }
-                    ?>
+                    
                     
                </td>
            </tr>
@@ -95,16 +94,14 @@ if(count ($yetki)>0){
 if(@$_GET["sil"])
 {
     $id = $_GET["sil"];
-    $silinecekDosya = DB::getRow("SELECT * FROM galeri WHERE id='$id'");
-    unlink("galeri/" . $silinecekDosya->resim);
-    $sil=DB::prepare("DELETE FROM galeri WHERE id=:silinecekid");
+    $sil=DB::prepare("DELETE FROM users WHERE id=:silinecekid");
     $sil->execute(["silinecekid"=> $id]);
     if($sil)
     {   
     
         echo "silme işlemi başarılı";
         echo "<script>";
-        echo "window.location.href='galeri.php';";
+        echo "window.location.href='kullanici.php';";
         echo "</script>";
     }
     

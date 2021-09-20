@@ -94,6 +94,7 @@ if($_POST){
     }
 }
 
+include 'include/footer.php';
 
 ?>
 

@@ -3,17 +3,36 @@
 ob_start();
 
 ?>
+    <html>
+        <body>
+            <style>
+                    .center
+{
+   position: absolute;
+
+   right: 0px;
+
+   
+
+   
+}
+            </style>
+        </body>
+    </html>
+
 
 <section class="content">
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Galeri Ayarları</div>
+<div class="box-header">Galeri Ayarları
+<button type="submit" class="btn btn-primary center" onclick="window.location.href='galeriupload.php';"> Birden Fazla Resim Ekle</button>
+</div>
 <div class="box-body">
 <form action="" method="post" enctype="multipart/form-data">
 <div class="form-group">
     <label > Resim</label>
-    <input type="file" name="resim" >
+    <input type="file" name="resim"  >
 </div>
 <div class="form-group">
     <label > Açıklama</label>
@@ -27,8 +46,14 @@ ob_start();
              </div>
             </div>
         </div>
-
+        
+        <!-- /page content -->
     </section>
+
+
+
+
+    
 
 <?php 
 
@@ -72,7 +97,7 @@ else{
 
 
 ?>
-
-
+   <!-- jQuery -->
+ 
     
     <?php include 'include/footer.php'; ?>
