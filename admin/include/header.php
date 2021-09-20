@@ -359,10 +359,12 @@ $id=$_SESSION['id'];
 					</a>
                 </li>
                 <?php 
+             
 $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+
 if(count($yetki)>0){
 ?>
-                <li>
+                <li> 
                      <a href="kullanici.php">
                         <i class="fa fa-th"></i> <span>Kullanıcılar</span>
 					</a>

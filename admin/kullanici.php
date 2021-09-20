@@ -1,7 +1,16 @@
 
 <?php 
 include 'include/header.php'; 
-                                  
+
+$id=$_SESSION['id'];
+$yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+if(count($yetki)==0)
+{
+ 
+    header("location:anasayfa.php");
+    exit;
+}
+
 ?>
 <section class="content-header">
         <h1>

@@ -1,8 +1,7 @@
 
 <?php 
-include 'include/header.php'; 
-
-$userId = $_SESSION["userId"];                                    
+include 'include/header.php';   
+$userId = $_SESSION["userId"];                                
 ?>
 <section class="content-header">
         <h1>
@@ -39,6 +38,7 @@ $userId = $_SESSION["userId"];
              <div class="box">
 <div class="box-header">Galeri 
 <?php 
+   
 $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
 if(count ($yetki)>0){
 ?>
@@ -65,14 +65,19 @@ if(count ($yetki)>0){
                <td>
       
                   <a href="galeri-guncelle.php?id=<?=$row->id?>"><i class="fa fa-edit text-primary"></i></a>
-                    <?php 
-                    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
-                    if(count ($yetki)>0){
-                    ?>
-                    <a href="?sil=<?=$row->id?>" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
                     <?php
-                    }
-                    ?>
+         
+                    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
+                   
+                    if(count ($yetki)>0){
+                         ?>
+                        <a href="?sil=<?=$row->id?>" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
+                        <?php
+                        } 
+                   
+                        ?>
+                   
+                    
                     
                </td>
            </tr>
@@ -92,6 +97,11 @@ if(count ($yetki)>0){
 
     <?php
    
+   $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
+   if(count($yetki)!=0){ 
+  
+    
+   
 if(@$_GET["sil"])
 {
     $id = $_GET["sil"];
@@ -106,11 +116,12 @@ if(@$_GET["sil"])
         echo "<script>";
         echo "window.location.href='galeri.php';";
         echo "</script>";
+        
     }
     
 }
-
-
+   }
+   
 ?>
 
 <?php include 'include/footer.php'; ?>
