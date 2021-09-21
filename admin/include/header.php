@@ -244,10 +244,16 @@ $id=$_SESSION['id'];
                         </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
+                    <?php 
+                  
+                    $id=$_SESSION['id'];
+                    $kullanici = DB::getRow("SELECT * FROM users WHERE id='$id'");
+                    
+                    ?>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">ECEM SIKAR</span>
+                            <span class="hidden-xs"><?= $kullanici->full_name ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -255,8 +261,8 @@ $id=$_SESSION['id'];
                                 <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                <?= $kullanici->full_name ?>
+                                   
                                 </p>
                             </li>
                             <!-- Menu Body -->
@@ -300,8 +306,8 @@ $id=$_SESSION['id'];
                     <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>Alexander Pierce</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Aktif</a>
+                    <p><?= $kullanici->full_name ?></p>
+                    <a href="#"><i class="fa fa-circle text-success"></i><?=$kullanici->is_admin?></a>
                 </div>
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
