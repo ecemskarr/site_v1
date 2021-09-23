@@ -351,11 +351,20 @@ $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
 if(count($yetki)>0){
 ?>
                 <li> 
-                     <a href="kullanici.php">
+                     <a href="adminkullanici.php">
                         <i class="fa fa-th"></i> <span>Kullanıcılar</span>
 					</a>
                 </li>
                 <?php } ?>
+                <?php
+             $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='kullanıcı'");   
+             if(count($yetki)>0){ ?>
+                <li>
+                     <a href="kullanici.php">
+                        <i class="fa fa-th"></i> <span>Kullanıcı Güncelleme</span>
+					</a>
+                </li>
+          <?php }  ?>
 			</ul>
         </section>
 

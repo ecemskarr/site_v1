@@ -1,128 +1,100 @@
+<?php include 'include/header.php'; ?>
+<section class="content-header">
+    <h1>
+        Admin Paneli
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Kullanıcı Ayarları</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
 
 <?php 
-include 'include/header.php'; 
 
-$id=$_SESSION['id'];
-$yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
-if(count($yetki)==0)
-{
- 
-    header("location:anasayfa.php");
-    exit;
+if($_SESSION['id']){
+    $Id = $_SESSION['id'];
+$kullanici=DB::getRow("SELECT * FROM users WHERE id=$Id");
+
+
+
+}
+if($_POST){
+ $update=DB::prepare("UPDATE users SET                  
+                  username=:username,
+                  password=:password,
+                  is_admin=:is_admin,
+                  full_name=:full_name,
+                  mail=:mail,
+                  phone=:phone
+  Where id=:id                
+
+
+");
+$update->execute([
+
+ "username" => $_POST["username"] ? $_POST["username"] : $kullanici->username,
+ "password" => $_POST["password"] ? $_POST["password"] : $kullanici->password,
+ "is_admin" => $_POST["is_admin"]? $_POST["is_admin"] : $kullanici->is_admin,
+ "full_name"=> $_POST["full_name"]? $_POST["full_name"] : $kullanici->full_name,
+ "mail" => $_POST["mail"]? $_POST["mail"] : $kullanici->mail,
+ "phone" => $_POST["phone"] ? $_POST["phone"] : $kullanici->phone,
+  "id"   => $Id 
+
+
+]);
+if($update){
+ echo "Güncelleme işlemi başarılı";
+ sleep(2);
+ header("location:anasayfa.php");
+}
+else{
+ echo "Bir hata oluştu";
+}
+
+
+
+
 }
 
 ?>
-<section class="content-header">
-        <h1>
-        Admin Paneli
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Anasayfa</a></li>
-            <li class="active">Dashboard</li>
-        </ol>
-    </section>
 
-    <!-- Main content -->
-    <html>
-        <body>
-            <style>
-                    .center
-{
-   position: absolute;
+<section class="content">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="box">
+                <div class="box-header">Kullanıcı Ayarları</div>
+                <div class="box-body">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <label>Kullanıcı Adı</label>
+                            <textarea name="username" class="form-control"><?=$kullanici->username?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            <textarea name="password" class="form-control"><?=$kullanici->password?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Adı Soyadı</label>
+                            <textarea name="full_name" class="form-control"><?=$kullanici->full_name?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Mail</label>
+                            <textarea name="mail" class="form-control"><?=$kullanici->mail?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon</label>
+                            <textarea name="phone" class="form-control"><?=$kullanici->phone?></textarea>
+                        </div>
 
-   right: 0px;
-
-   
-
-   
-}
-            </style>
-        </body>
-    </html>
-
-   
-    <section class="content">
-        <div class="col-md-12">
-            <div class="row">
-             <div class="box">
-<div class="box-header">Kullanıcılar
-<button type="submit" class="btn btn-primary center" onclick="window.location.href='kullanici-ekle.php';"> Yeni Kayıt Ekle</button>
-
-</div>
-<div class="box-body">
-<table class="table table-sprited">
-    <thead>
-        <th>#ID</th>
-        <th>Kullanıcı Adı</th>
-        <th>Şifre</th>
-        <th>Yetki</th>
-        <th>Admin-Kullanıcı</th>
-        <th>Adı Soyadı</th>
-        <th>Mail</th>
-        <th>Telefon</th>
-        <th>İşlem</th>
-    </thead>
-    <tbody>
-       <?php 
-       
-       $calismalarim=DB::get("SELECT * FROM users ");
-       foreach($calismalarim as $row)
-       {
-           ?>
-           <tr>
-               <td><?=$row->id?></td>
-               <td><?=$row->username?></td>
-               <td >
-<a href="sifre-guncelle.php?id=<?=$row->id?>"><i class="fa fa-key "></i></a>
-</td>
-               <td><?=$row->permissions?></td>
-               <td><?=$row->is_admin?></td>
-               <td><?=$row->full_name?></td>
-               <td><?=$row->mail?></td>
-               <td><?=$row->phone?></td>
-               <td>
-      
-                  <a href="kullanici-guncelle.php?id=<?=$row->id?>"><i class="fa fa-edit text-primary"></i></a>
-                    <a href="?sil=<?=$row->id?>" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
-                    
-                    
-               </td>
-           </tr>
-           <?php
-       }
-       
-       ?>
-    </tbody>
-</table>
-</div>
-             </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Güncelle</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
 
-    </section>
-
-
-    <?php
-   
-if(@$_GET["sil"])
-{
-    $id = $_GET["sil"];
-    $sil=DB::prepare("DELETE FROM users WHERE id=:silinecekid");
-    $sil->execute(["silinecekid"=> $id]);
-    $delete=DB::prepare("DELETE FROM user_permissions WHERE userId=:deleteid");
-    $delete->execute(["deleteid"=>$id]);
-    if($sil&&$delete)
-    {   
-    
-        echo "silme işlemi başarılı";
-        echo "<script>";
-        echo "window.location.href='kullanici.php';";
-        echo "</script>";
-    }
-    
-}
-
-
-?>
-
+</section>
 <?php include 'include/footer.php'; ?>
