@@ -56,6 +56,7 @@ if(count($yetki)==0)
         <th>Kullanıcı Adı</th>
         <th>Şifre</th>
         <th>Yetki</th>
+        <th>Admin-Kullanıcı</th>
         <th>Adı Soyadı</th>
         <th>Mail</th>
         <th>Telefon</th>
@@ -71,8 +72,11 @@ if(count($yetki)==0)
            <tr>
                <td><?=$row->id?></td>
                <td><?=$row->username?></td>
-               <td><?=$row->password?></td>
+               <td >
+<a href="sifre-guncelle.php?id=<?=$row->id?>"><i class="fa fa-key "></i></a>
+</td>
                <td><?=$row->permissions?></td>
+               <td><?=$row->is_admin?></td>
                <td><?=$row->full_name?></td>
                <td><?=$row->mail?></td>
                <td><?=$row->phone?></td>
@@ -105,7 +109,9 @@ if(@$_GET["sil"])
     $id = $_GET["sil"];
     $sil=DB::prepare("DELETE FROM users WHERE id=:silinecekid");
     $sil->execute(["silinecekid"=> $id]);
-    if($sil)
+    $delete=DB::prepare("DELETE FROM user_permissions WHERE userId=:deleteid");
+    $delete->execute(["deleteid"=>$id]);
+    if($sil&&$delete)
     {   
     
         echo "silme işlemi başarılı";

@@ -9,6 +9,7 @@ if($_POST)
     $username       =  $_POST["username"];
     $password       =  md5($_POST["password"]);
     $permissions    =  1;
+    $is_admin       =  $_POST["is_admin"];
     $full_name      =  $_POST["full_name"];
     $mail           =  $_POST["mail"];
     $phone          =  $_POST["phone"];
@@ -18,6 +19,7 @@ if($_POST)
         username='$username',
         password='$password',
         permissions='$permissions',
+        is_admin=' $is_admin',
         full_name='$full_name',
         mail='$mail',
         phone='$phone'
@@ -101,7 +103,10 @@ $categories = DB::get("select * from permissions");
 <div class="form-group">
 </div>
 <br> <br>
-
+<div class="form-group">
+    <label> Admin-Kullanıcı</label>
+    <input type="text" name="is_admin" class="form-control" placeholder="Kullanıcı Adı Giriniz"></input>
+</div>
 
 <div class="form-group">
     <label> Adı Soyadı</label>

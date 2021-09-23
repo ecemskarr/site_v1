@@ -69,8 +69,7 @@ if($_POST)
 
     
 $ekle=DB::prepare("UPDATE hizmetlerimiz SET 
-                     
-                  
+            
                      hizmetAdi=:hizmetAdi,
                      hizmetAciklama=:hizmetAciklama
                     WHERE hizmetID=:hizmetID
@@ -78,12 +77,9 @@ $ekle=DB::prepare("UPDATE hizmetlerimiz SET
                     ");
 $ekle->execute([
    
-   
     "hizmetAdi" =>$_POST["hizmetAdi"],
     "hizmetAciklama" =>$_POST["hizmetAciklama"],
     "hizmetID" => $_GET["hizmetID"]
-    
-   
  
 ]);
 if($ekle){
