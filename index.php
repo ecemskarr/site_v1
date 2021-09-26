@@ -246,7 +246,7 @@ $calismalarim=DB::get("SELECT * FROM hizmetlerimiz");
 
  
   <?php 
-$calismalarim=DB::get("SELECT * FROM galeri");
+$calismalarim=DB::get("SELECT * FROM galeri where durum=1");
 
 ?>
 
@@ -271,7 +271,7 @@ $calismalarim=DB::get("SELECT * FROM galeri");
             <div class="single-team-member">
               <div class="team-img">
                 <a href="#">
-										<img src="admin/galeri/<?= $row->resim ?>" alt="">
+										<img src="admin/galeri/<?= $row->resim  ?>" alt="">
 									</a>
               </div>
               <div class="team-content text-center">
@@ -344,7 +344,7 @@ $categories = DB::get("select * from kategoriler");
                     </div>
                 </div>
                 <?php
-          $calismalarim=DB::get("SELECT * FROM referans ");
+          $calismalarim=DB::get("SELECT * FROM referans where durum=1");
 ?>
                 <div class="awesome-project-content">
                     <!-- single-awesome-project start -->
@@ -381,7 +381,7 @@ $categories = DB::get("select * from kategoriler");
     
     <!-- Start Blog Area -->
     <?php
-$calismalarim=DB::get("select * from haber")
+$calismalarim=DB::get("select * from haber where durum=1")
 ?>
     <div id="blog" class="blog-area">
         <div class="blog-inner area-padding">

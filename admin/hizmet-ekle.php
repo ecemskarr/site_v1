@@ -1,4 +1,6 @@
-<?php include 'include/header.php';  ?>
+<?php include 'include/header.php'; 
+$userId = $_SESSION["userId"]; 
+?>
 <section class="content">
         <div class="col-md-12">
             <div class="row">
@@ -38,7 +40,8 @@
  if($_POST)
  {
  
- 
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
+    if(count ($yetki)>0){
      $ekle=DB::prepare("INSERT INTO hizmetlerimiz SET 
                      
                      hizmetAdi=:hizmetAdi,
@@ -62,8 +65,19 @@
  
  
  
- }
- 
+    } else{
+
+        echo "<script>
+        Swal.fire({
+           
+            icon: 'error',
+            title: 'Yetkisiz işlem',
+            showConfirmButton: false
+          
+          })
+        </script>"; 
+    }
+}
  
  ?>   
     <?php include 'include/footer.php'; ?>

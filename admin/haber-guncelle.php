@@ -67,6 +67,10 @@ $calismaDetay = DB::getRow("SELECT * FROM haber WHERE id='$refId'");
 
 if($_POST)
 {
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){ 
 if($_FILES["resim"]["name"]){
     $resimAdi=$_FILES["resim"]["name"];
 $resimYolu="assets/upload/".$resimAdi;
@@ -75,7 +79,8 @@ if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
     $ekle=DB::prepare("UPDATE haber SET 
                      resim=:resim,
                      baslik=:baslik,
-                     aciklama=:aciklama
+                     aciklama=:aciklama,
+                     durum=:durum
                     WHERE id=:id
                    
                     ");
@@ -83,6 +88,7 @@ $ekle->execute([
     "resim"  => $resimAdi,
     "baslik" => $_POST["baslik"],
     "aciklama" =>$_POST["aciklama"],
+    "durum" => 0,
     "id" => $_GET["id"]
    
  
@@ -100,7 +106,8 @@ else{
                      
                      
                      baslik=:baslik,
-                     aciklama=:aciklama
+                     aciklama=:aciklama,
+                     durum=:durum
                     WHERE id=:id
                     ");
 $ekle->execute([
@@ -108,13 +115,14 @@ $ekle->execute([
     
     "baslik" => $_POST["baslik"],
     "aciklama" =>$_POST["aciklama"],
+    "durum" => 0,
     "id" => $_GET["id"]
    
    
  
 ]);
 if($ekle){
-    echo "Güncelleme işlemi başarılı";
+    echo "Onay Bekleniyor";
 }
 else{
     echo "Bir hata oluştu";
@@ -122,8 +130,18 @@ else{
 }
 
 
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";  
 }
-
+}
 
 
 ?>

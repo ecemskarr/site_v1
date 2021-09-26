@@ -1,5 +1,17 @@
 
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php';
+
+
+$id=$_SESSION['id'];
+$yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+if(count($yetki)==0)
+{
+ 
+    header("location:anasayfa.php");
+    exit;
+}
+
+?>
 <section class="content-header">
         <h1>
         Admin Paneli
@@ -14,7 +26,7 @@
 
 if($_GET["id"]){
     $Id = $_GET["id"];
-$calismaDetay=DB::getRow("SELECT * FROM kategoriler WHERE id=$Id");
+$yetki=DB::getRow("SELECT * FROM permissions WHERE id=$Id");
 
 
 
@@ -31,14 +43,14 @@ $calismaDetay=DB::getRow("SELECT * FROM kategoriler WHERE id=$Id");
         <div class="col-md-12">
             <div class="row">
              <div class="box">
-<div class="box-header">Referans Kategori Ayarları</div>
+<div class="box-header">Yetki Ayarları</div>
 <div class="box-body">
-<form action="" method="post" enctype="multipart/form-data">
+<form action="" method="post">
 
 
-   
-    <label >Kategori Adı</label>
-    <textarea name="kategoriAd" class="form-control" placeholder="Kategori Adı Giriniz"><?=$calismaDetay->kategoriAd?></textarea>
+<div class="form-group">
+    <label >Yetki Adı</label>
+    <textarea name="title" class="form-control" placeholder="Kategori Adı Giriniz"><?=$yetki->title?></textarea>
 </div>
 
 <div class="form-group">
@@ -63,21 +75,18 @@ $calismaDetay=DB::getRow("SELECT * FROM kategoriler WHERE id=$Id");
 if($_POST)
 {
 
-    $id=$_SESSION['id'];
-    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
-    $deger=count($permissions);
-    if($deger>=1){ 
-$ekle=DB::prepare("UPDATE kategoriler SET 
+    
+$ekle=DB::prepare("UPDATE permissions SET 
                      
                   
-                     kategoriAd=:kategoriAd
+                     title=:title
                     WHERE id=:id
                    
                     ");
 $ekle->execute([
    
    
-    "kategoriAd" =>$_POST["kategoriAd"],
+    "title" =>$_POST["title"] ? $_POST["title"] : $yetki->title,
     "id" => $_GET["id"]
     
    
@@ -85,6 +94,7 @@ $ekle->execute([
 ]);
 if($ekle){
     echo "Güncelleme işlemi başarılı";
+    header("location:yetkiler.php");
 }
 else{
     echo "Bir hata oluştu";
@@ -92,18 +102,8 @@ else{
 
 
 
-}else{
-    echo "<script>
-    Swal.fire({
-       
-        icon: 'error',
-        title: 'Yetkisiz işlem',
-        showConfirmButton: false
-      
-      })
-    </script>";   
 }
-}
+
 
 
 ?>

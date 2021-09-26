@@ -22,7 +22,7 @@ $id=$_SESSION['id'];
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="assets/css/skin-green.min.css">
     <link rel="stylesheet" href="assets/css/select2.min.css">
-
+    <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
 </head>
 <body class="hold-transition skin-green sidebar-mini">
 <div class="wrapper">
@@ -361,10 +361,25 @@ if(count($yetki)>0){
              if(count($yetki)>0){ ?>
                 <li>
                      <a href="kullanici.php">
-                        <i class="fa fa-th"></i> <span>Kullanıcı Güncelleme</span>
+                        <i class="fa fa-th"></i> <span>Bilgileri Güncelleme</span>
 					</a>
                 </li>
           <?php }  ?>
+          <?php 
+             
+             $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+             
+             if(count($yetki)>0){
+             ?>
+                             <li> 
+                                  <a href="yetkiler.php">
+                                     <i class="fa fa-th"></i> <span>Yetkiler</span>
+                                 </a>
+                             </li>
+                             <?php } ?>
+
+
+
 			</ul>
         </section>
 
@@ -375,3 +390,4 @@ if(count($yetki)>0){
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+  

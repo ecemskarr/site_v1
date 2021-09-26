@@ -1,5 +1,9 @@
 
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php';
+require 'class.upload.php';
+?>
+
+
 <section class="content-header">
         <h1>
         Admin Paneli
@@ -40,30 +44,50 @@ $ayar = DB::getRow("SELECT * FROM ayarlar WHERE id=1");
         </div>
 
     </section>
+    <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
 <?php 
 if($_POST){
- 
-    if($_FILES["resim"]["name"]){
-    
-        $resimAdi=$_FILES["resim"]["name"];
-        $resimYolu="assets/upload/".$resimAdi;
-        if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu)){
+
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){
+        $image=new upload($_FILES['resim']);
+        if($image->uploaded){
+        $image->image_resize = true;
+        $image->image_ratio_crop = true;
+        $image->image_x = 200;
+        $image->image_y = 50;
+        $image->Process('galeri/');
+        if($image->processed){
+          $image_name=$image->file_dst_name;
             $guncelle= DB::prepare("UPDATE ayarlar SET site_baslik=:baslik, site_logo=:resim WHERE id=:id");
          $guncelle->execute([
              "baslik" => $_POST["baslik"],
-             "resim" => $resimAdi,
+             "resim" =>  $image_name,
              "id" => 1
          ]);
          if($guncelle){
-             echo "Güncelleme işlemi başarılı";
+            echo "<script>
+            Swal.fire({
+         
+                icon: 'success',
+                title: 'Güncelleme işlemi başarılı',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            </script>";
      
          }
          else{
              echo "Bir hata oluştu";
          }
+        
         }
-     
-      }else{
+    }
+
+    
+      else{
         $guncelle= DB::prepare("UPDATE ayarlar SET site_baslik=:baslik WHERE id=:id");
         $guncelle->execute([
             "baslik" => $_POST["baslik"],
@@ -78,9 +102,19 @@ if($_POST){
         }
       }
 
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
 }
 
-
+}
 ?>
 
 

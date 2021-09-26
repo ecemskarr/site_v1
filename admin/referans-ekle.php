@@ -1,7 +1,7 @@
 <?php include 'include/header.php'; 
-
+require 'class.upload.php';
 ob_start();
-
+$userId = $_SESSION["userId"];
 ?>
  <section class="content">
         <div class="col-md-12">
@@ -64,16 +64,18 @@ foreach($categories as $item) {
 <?php 
 if($_POST)
 {
-    if(!file_exists("referanslar"))
-    {
-        mkdir("referanslar");
-    }
-    
-    $dizin="referanslar/";
-    $resimAdi=$_FILES["resim"]["name"];
-    $yuklenecekResim=$dizin.$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],  $yuklenecekResim))
-{
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
+if(count ($yetki)>0){
+    $image=new upload($_FILES['resim']);
+    if($image->uploaded){
+        $image->image_resize = true;
+        $image->image_ratio_crop = true;
+        $image->image_x = 330;
+        $image->image_y = 340;
+        $image->Process('referanslar/');
+ 
+if($image->processed)
+{   $image_name=$image->file_dst_name;
     $ekle=DB::prepare("INSERT INTO referans SET 
                      resim=:resim,
                      kategori_id=:kategori_id,
@@ -81,7 +83,7 @@ if(move_uploaded_file($_FILES["resim"]["tmp_name"],  $yuklenecekResim))
                    
                     ");
 $ekle->execute([
-    "resim"  => $resimAdi,
+    "resim"  => $image_name,
     "kategori_id" => $_POST["kategori_id"],
     "referansAd" => $_POST["referansAd"],
    
@@ -97,8 +99,19 @@ else{
 }
 
 
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>"; 
 }
-
+}
+}
 ?>
 
 

@@ -1,6 +1,7 @@
 <?php include 'include/header.php'; 
-
+require 'class.upload.php';
 ob_start();
+$userId = $_SESSION["userId"];
 
 ?>
     <html>
@@ -51,7 +52,7 @@ ob_start();
     </section>
 
 
-
+    <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
 
     
 
@@ -59,31 +60,41 @@ ob_start();
 
 if($_POST)
 {
-if(!file_exists("galeri"))
-{
-    mkdir("galeri");
-}
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
+if(count($yetki)!=0){
+    $image=new upload($_FILES['resim']);
+    if($image->uploaded){
+        $image->image_resize = true;
+        $image->image_ratio_crop = true;
+        $image->image_x = 260;
+        $image->image_y = 260;
+        $image->Process('galeri/');
+        if($image->processed){
+          $image_name=$image->file_dst_name;
 
-$dizin="galeri/";
-$resimAdi=$_FILES["resim"]["name"];
-$yuklenecekResim=$dizin.$resimAdi;
 
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$yuklenecekResim))
-{
     $ekle=DB::prepare("INSERT INTO galeri SET 
     resim=:resim,
    aciklama=:aciklama
   
    ");
 $ekle->execute([
-"resim"  => $resimAdi,
+"resim"  => $image_name,
 "aciklama" => $_POST["aciklama"]
 
 
 ]);
-}
+       
 if($ekle){
-    echo "Ekleme işlemi başarılı";
+    echo "<script>
+    Swal.fire({
+ 
+        icon: 'success',
+        title: 'Ekleme işlemi başarılı',
+        showConfirmButton: false,
+       
+      })
+    </script>";
 
    
    header("location:galeri.php");
@@ -92,10 +103,21 @@ if($ekle){
 else{
     echo "Bir hata oluştu";
 }
+} 
 }
 
-
-
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
+}
+}
 ?>
    <!-- jQuery -->
  

@@ -1,5 +1,23 @@
 
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php';
+ob_start();
+require 'class.upload.php';
+$id=$_SESSION['id'];
+$permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+$deger=count($permissions);
+if($deger<=0){
+
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
+}
+?>
 <section class="content-header">
         <h1>
         Admin Paneli
@@ -45,13 +63,13 @@ $calismaDetay=DB::getRow("SELECT * FROM galeri WHERE id=$id");
 <button type="submit" class="btn btn-primary">Güncelle</button>
 </div>
 </form>
-<img src="assets/upload/<?= $row->resim ?>" alt="" height="200">
+<img src="galeri/<?= $calismaDetay->resim ?>" alt="" height="200">
 </div>
              </div>
             </div>
         </div>
 
-    
+        <script type="text/javascript" src="../js/sweetalert2.all.min.js"></script>
 
 
     <?php 
@@ -59,60 +77,103 @@ $calismaDetay=DB::getRow("SELECT * FROM galeri WHERE id=$id");
 
 
 
-
 if($_POST)
 {
-if($_FILES["resim"]["name"]){
-    $resimAdi=$_FILES["resim"]["name"];
-$resimYolu="assets/upload/".$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
-{
-    $ekle=DB::prepare("UPDATE galeri SET 
-                     resim=:resim,
-                    aciklama=:aciklama WHERE id=:id
-                   
-                    ");
-$ekle->execute([
-    "resim"  => $resimAdi,
-    "aciklama" => $_POST["aciklama"],
-    "id" => $_GET["id"]
-   
- 
-]);
-if($ekle){
-    echo "Güncelleme işlemi başarılı";
-}
-else{
-    echo "Bir hata oluştu";
-}
-}
-}else{
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){
     
-    $ekle=DB::prepare("UPDATE galeri SET 
-                     
-                    aciklama=:aciklama WHERE id=:id
-                   
-                    ");
+  $image=new upload($_FILES['resim']);
+  if($image->uploaded){
+      $image->image_resize = true;
+      $image->image_ratio_crop = true;
+      $image->image_x = 260;
+      $image->image_y = 260;
+      $image->Process('galeri/');
+      if($image->processed){
+        $image_name=$image->file_dst_name;
+        $ekle=DB::prepare("UPDATE galeri SET 
+        resim=:resim,
+       aciklama=:aciklama WHERE id=:id
+      
+       ");
+      
 $ekle->execute([
-   
-    "aciklama" => $_POST["aciklama"],
-    "id" => $_GET["id"]
-   
- 
+"resim"  => $image_name,
+"aciklama" => $_POST["aciklama"] ? $_POST["aciklama"] : $calismaDetay->aciklama,
+"id" => $_GET["id"]
+
+
 ]);
+
+
 if($ekle){
-    echo "Güncelleme işlemi başarılı";
+    echo "<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Güncelleme işlemi yapıldı',
+       
+      })
+    </script>";
+    header("location:galeri.php");
+   
+    
 }
 else{
     echo "Bir hata oluştu";
 }
+
+       }
+     
+
+    }
+    else {
+        $ekle=DB::prepare("UPDATE galeri SET 
+                     
+        aciklama=:aciklama, durum=:durum WHERE id=:id
+       
+        ");
+$ekle->execute([
+
+"aciklama" => $_POST["aciklama"],
+"durum"=> 0,
+"id" => $_GET["id"]
+
+
+
+]);
+if($ekle){
+echo "<script>
+Swal.fire({
+
+icon: 'success',
+title: 'Güncelleme işlemi onaya gönderildi',
+showConfirmButton: false,
+timer: 1500
+})
+</script>";
+header("location:galeri.php");
+}
+else{
+echo "Bir hata oluştu";
+}
+    }
 }
 
-
+else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
+    header("location:galeri.php");
 }
-
-
-
+}
 ?>
 
 

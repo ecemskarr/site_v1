@@ -20,6 +20,9 @@ $kullanici=DB::getRow("SELECT * FROM users WHERE id=$Id");
 
 }
 if($_POST){
+
+    $password=$_POST["password"];
+    $kullanici_password=md5($password);  
  $update=DB::prepare("UPDATE users SET                  
                   username=:username,
                   password=:password,
@@ -34,7 +37,7 @@ if($_POST){
 $update->execute([
 
  "username" => $_POST["username"] ? $_POST["username"] : $kullanici->username,
- "password" => $_POST["password"] ? $_POST["password"] : $kullanici->password,
+ "password" =>$kullanici_password ? $kullanici_password : $kullanici->password,
  "is_admin" => $_POST["is_admin"]? $_POST["is_admin"] : $kullanici->is_admin,
  "full_name"=> $_POST["full_name"]? $_POST["full_name"] : $kullanici->full_name,
  "mail" => $_POST["mail"]? $_POST["mail"] : $kullanici->mail,

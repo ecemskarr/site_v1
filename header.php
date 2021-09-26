@@ -21,7 +21,7 @@
                 <a class="navbar-brand page-scroll sticky-logo" href="index.php">
                   <!--<h1><span>e</span>Business</h1> -->
                   <!-- Uncomment below if you prefer to use an image logo -->
-                   <img src="admin/assets/upload/<?= $ayar->site_logo ?> "  alt="" height="40" width="40"> 
+                   <img src="admin/galeri/<?= $ayar->site_logo ?> "  alt="" > 
                   
                 
 								</a>

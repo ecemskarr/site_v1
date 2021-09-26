@@ -1,4 +1,14 @@
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php';
+$id=$_SESSION['id'];
+$yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+if(count($yetki)==0)
+{
+ 
+    header("location:anasayfa.php");
+    exit;
+}
+
+?>
 <section class="content-header">
     <h1>
         Admin Paneli
@@ -20,7 +30,8 @@ $calismaDetay=DB::getRow("SELECT * FROM users WHERE id=$Id");
 // KULLANICI GUNCELLEME
 
 if($_POST)
- {
+ { $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");;
+    if(count ($yetki)>0){
     
     //MEVCUT YETKİLERİ GETİR
     $userPermissions = DB::get("select * from user_permissions where userId=$Id");
@@ -66,9 +77,19 @@ if($update){
 else{
     echo "Bir hata oluştu";
 }
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>"; 
 }
 
-
+ }
 ?>
 
 <section class="content">
@@ -86,7 +107,7 @@ else{
 
                         <h4> Yetkileri </h4>
                         <?php 
-								$yetki = DB::get("SELECT * FROM permissions"); 
+								$yetki = DB::get("SELECT * FROM permissions"); //3 kayıt var diziler 0 dan başlar [0,1,2]
                                 $userPermissions = DB::get("select * from user_permissions where userId=$Id");
 								for($i = 0; $i < count($yetki); $i++){
                                     $counter = 0;

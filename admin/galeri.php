@@ -23,10 +23,11 @@ $userId = $_SESSION["userId"];
 
    right: 0px;
 
-   
+
 
    
 }
+.RbtnMargin { margin-left: 5px; }
             </style>
         </body>
     </html>
@@ -42,7 +43,13 @@ $userId = $_SESSION["userId"];
 $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
 if(count ($yetki)>0){
 ?>
-<button type="submit" class="btn btn-primary center" onclick="window.location.href='galeri-ekle.php';"> Yeni Kayıt Ekle</button>
+<button type="submit" class="btn btn-primary pull-right RbtnMargin" onclick="window.location.href='galeri-ekle.php';"> Yeni Kayıt Ekle</button>
+<?php } ?>
+<?php
+$id=$_SESSION['id'];
+$yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+if(count($yetki)>0) { ?>
+<button type="submit" class="btn btn-warning pull-right" onclick="window.location.href='galerionay.php';"> Onay Bekleyenler</button> 
 <?php } ?>
 </div>
 <div class="box-body">
@@ -55,7 +62,7 @@ if(count ($yetki)>0){
     <tbody>
        <?php 
        
-       $calismalarim=DB::get("SELECT * FROM galeri ");
+       $calismalarim=DB::get("SELECT * FROM galeri where durum=1");
        foreach($calismalarim as $row)
        {
            ?>
@@ -70,6 +77,7 @@ if(count ($yetki)>0){
                     $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
                    
                     if(count ($yetki)>0){
+
                          ?>
                         <a href="?sil=<?=$row->id?>" onclick="return confirm('Silmek istediğinize emin misiniz?');"><i class="fa fa-trash text-danger"></i></a>
                         <?php
@@ -97,30 +105,41 @@ if(count ($yetki)>0){
 
     <?php
    
-   $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
-   if(count($yetki)!=0){ 
+ 
   
     
    
 if(@$_GET["sil"])
 {
-    $id = $_GET["sil"];
-    $silinecekDosya = DB::getRow("SELECT * FROM galeri WHERE id='$id'");
-    unlink("galeri/" . $silinecekDosya->resim);
-    $sil=DB::prepare("DELETE FROM galeri WHERE id=:silinecekid");
-    $sil->execute(["silinecekid"=> $id]);
-    if($sil)
-    {   
-    
-        echo "silme işlemi başarılı";
-        echo "<script>";
-        echo "window.location.href='galeri.php';";
-        echo "</script>";
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
+    if(count($yetki)!=0){
+        $id = $_GET["sil"];
+        $silinecekDosya = DB::getRow("SELECT * FROM galeri WHERE id='$id'");
+        unlink("galeri/" . $silinecekDosya->resim);
+        $sil=DB::prepare("DELETE FROM galeri WHERE id=:silinecekid");
+        $sil->execute(["silinecekid"=> $id]);
+        if($sil)
+        {   
         
-    }
-    
+            echo "silme işlemi başarılı";
+            echo "<script>";
+            echo "window.location.href='galeri.php';";
+            echo "</script>";
+            
+        }
+    }else{
+        echo "<script>
+        Swal.fire({
+           
+            icon: 'error',
+            title: 'Yetkisiz işlem',
+            showConfirmButton: false
+          
+          })
+        </script>"; 
+       }
 }
-   }
+   
    
 ?>
 

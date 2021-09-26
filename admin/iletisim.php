@@ -61,6 +61,10 @@ $iletisim = DB::getRow("SELECT * FROM iletisim WHERE id=1");
 <?php 
 
 if($_POST){
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){
     $guncelle= DB::prepare("UPDATE iletisim SET tel=:tel, email=:email, adres=:adres, facebook=:facebook, twitter=:twitterr, google=:google WHERE id=:id");
     $guncelle->execute([
         "tel" => $_POST["tel"],
@@ -78,8 +82,18 @@ if($_POST){
     else{
         echo "Bir hata oluştu";
     }
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";  
 }
-
+}
 ?>
 
 

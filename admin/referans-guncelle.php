@@ -67,6 +67,11 @@ $calismaDetay = DB::getRow("SELECT * FROM referans WHERE referans_id='$refId'");
 
 if($_POST)
 {
+    
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){
 if($_FILES["resim"]["name"]){
     $resimAdi=$_FILES["resim"]["name"];
 $resimYolu="assets/upload/".$resimAdi;
@@ -75,7 +80,8 @@ if(move_uploaded_file($_FILES["resim"]["tmp_name"],$resimYolu))
     $ekle=DB::prepare("UPDATE referans SET 
                      resim=:resim,
                      kategori_id=:kategori_id,
-                     referansAd=:referansAd
+                     referansAd=:referansAd,
+                     durum=:durum
                     WHERE referans_id=:referans_id
                    
                     ");
@@ -83,6 +89,7 @@ $ekle->execute([
     "resim"  => $resimAdi,
     "kategori_id" => $_POST["kategori_id"],
     "referansAd" =>$_POST["referansAd"],
+    "durum"=> 0,
     "referans_id" => $_GET["referans_id"]
    
  
@@ -99,7 +106,8 @@ else{
     $ekle=DB::prepare("UPDATE referans SET 
                      
                      kategori_id=:kategori_id,
-                     referansAd=:referansAd
+                     referansAd=:referansAd,
+                     durum=:durum
                     WHERE referans_id=:referans_id
                    
                     ");
@@ -107,6 +115,7 @@ $ekle->execute([
    
     "kategori_id" => $_POST["kategori_id"],
     "referansAd" =>$_POST["referansAd"],
+    "durum"=> 0,
     "referans_id" => $_GET["referans_id"]
    
  
@@ -120,9 +129,19 @@ else{
 }
 
 
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
 }
 
-
+}
 
 ?>
 

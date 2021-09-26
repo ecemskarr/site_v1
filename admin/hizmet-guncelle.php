@@ -66,7 +66,10 @@ $calismaDetay=DB::getRow("SELECT * FROM hizmetlerimiz WHERE hizmetID=$Id");
 
 if($_POST)
 {
-
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){ 
     
 $ekle=DB::prepare("UPDATE hizmetlerimiz SET 
             
@@ -91,9 +94,19 @@ else{
 
 
 
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";  
 }
 
-
+}
 
 ?>
 

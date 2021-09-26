@@ -1,4 +1,7 @@
-<?php include 'include/header.php';  ?>
+<?php include 'include/header.php'; 
+require 'class.upload.php'; 
+$userId = $_SESSION["userId"]; 
+?>
 <head>
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
@@ -53,16 +56,17 @@ forcePasteAsPlainText: true
 
 if($_POST)
 {
-    if(!file_exists("haberler"))
-    {
-        mkdir("haberler");
-    }
-    
-    $dizin="haberler/";
-    $resimAdi=$_FILES["resim"]["name"];
-    $yuklenecekResim=$dizin.$resimAdi;
-if(move_uploaded_file($_FILES["resim"]["tmp_name"],$yuklenecekResim))
-{
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 1 ");
+    if(count ($yetki)>0){
+        $image=new upload($_FILES['resim']);
+        if($image->uploaded){
+            $image->image_resize = true;
+            $image->image_ratio_crop = true;
+            $image->image_x = 360;
+            $image->image_y = 360;
+            $image->Process('haberler/');
+            if($image->processed){
+              $image_name=$image->file_dst_name;
     $ekle=DB::prepare("INSERT INTO haber SET 
                      resim=:resim,
                      baslik=:baslik,
@@ -70,7 +74,7 @@ if(move_uploaded_file($_FILES["resim"]["tmp_name"],$yuklenecekResim))
                    
                     ");
 $ekle->execute([
-    "resim"  => $resimAdi,
+    "resim"  => $image_name,
     "baslik" => $_POST["baslik"],
     "aciklama" => $_POST["aciklama"]
    
@@ -83,11 +87,24 @@ if($ekle){
 else{
     echo "Bir hata oluştu";
 }
-}
 
 
 }
+        }
 
+}else{
+
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>"; 
+}
+}
 
 ?>
 <?php include 'include/footer.php'; ?>

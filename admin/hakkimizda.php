@@ -77,6 +77,10 @@ forcePasteAsPlainText: true
 
     <?php 
 if($_POST){
+    $id=$_SESSION['id'];
+    $permissions=DB::get("select * from user_permissions where userId=$id and permissionId=5 ");
+    $deger=count($permissions);
+    if($deger>=1){
     $guncelle= DB::prepare("UPDATE hakkimizda SET aciklama=:aciklama, video=:video WHERE id=:id");
     $guncelle->execute([
         
@@ -93,7 +97,18 @@ if($_POST){
         echo "Bir hata oluştu";
     }
 }
-
+else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
+}
+}
 include 'include/footer.php';
 
 ?>

@@ -1,59 +1,59 @@
 <?php include 'include/header.php'; 
+$id=$_SESSION['id'];
 
 
 if($_POST)
- {
- 
-    $yetki1         =  isset($_POST["yetki_1"]);
-    $yetki2         =  isset($_POST["yetki_2"]);
+ {$yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+    if(count ($yetki)>0){
     $username       =  $_POST["username"];
     $password       =  md5($_POST["password"]);
-    $permissions    =  1;
     $is_admin       =  $_POST["is_admin"];
     $full_name      =  $_POST["full_name"];
     $mail           =  $_POST["mail"];
     $phone          =  $_POST["phone"];
     
     // Kullanıcı ekleme
-    $userId = DB::insert("INSERT INTO users SET 
+    $userId = DB::prepare("INSERT INTO users SET 
         username='$username',
         password='$password',
-        permissions='$permissions',
         is_admin=' $is_admin',
         full_name='$full_name',
         mail='$mail',
         phone='$phone'
-    ");
-
- // Kullanıcı ekleme yetkisi
-    if( isset($yetki1) )
-    {
-        $yetki1 = DB::insert("INSERT INTO user_permissions SET                 
-        userId ='$userId',
-        permissionId =1
-    ");
+    ")->execute();
+$lastId = DB::lastInsertId();
+if(isset($_POST['yetkiler']) && $_POST['yetkiler']) {
+    foreach($_POST['yetkiler'] as $elem) {
+        DB::insert("INSERT INTO user_permissions SET 
+        userId='$lastId' ,
+        permissionId='$elem'
+    ");        
     }
-
-     // Kullanıcı silme yetkisi
-     if( isset($yetki2) )
-     {
-         $yetki2 = DB::insert("INSERT INTO user_permissions SET                 
-         userId ='$userId',
-         permissionId =2
-     ");
-     }
+}
 
 
  if($userId){
      echo "Ekleme işlemi başarılı";
-     header("location:kullanici.php");
+     header("location:adminkullanici.php");
  }
  else{
      echo "Bir hata oluştu";
  }
  
  
+ }else{
+
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
  }
+}
 
 ?>
     <html>
@@ -87,38 +87,39 @@ if($_POST)
 </div>
 <div class="form-group">
     <label >Şifre</label>
-    <input type="text" name="password" class="form-control" placeholder="Kullanıcı Adı Giriniz"></input>
+    <input type="text" name="password" class="form-control" placeholder="Şifre Adı Giriniz"></input>
 </div>
 
-<?php
 
-$categories = DB::get("select * from permissions"); 
-
-?>
 
 <h4> Yetkileri </h4>
-
-<input type="checkbox" name="yetki_1" checked> Ekleme <br>
-<input type="checkbox" name="yetki_2"> Silme  <br>
+<?php 
+								$yetki = DB::get("SELECT * FROM permissions"); 
+								for($i = 0; $i < count($yetki); $i++){
+                                    ?>
+                                    <input type="checkbox" value="<?php echo $yetki[$i]->id; ?>" name="yetkiler[]" /><?php echo $yetki[$i]->title; ?>
+                                    <?php  
+                                }
+                        ?>
 <div class="form-group">
 </div>
 <br> <br>
 <div class="form-group">
     <label> Admin-Kullanıcı</label>
-    <input type="text" name="is_admin" class="form-control" placeholder="Kullanıcı Adı Giriniz"></input>
+    <input type="text" name="is_admin" class="form-control" placeholder="Admin-Kullanıcı"></input>
 </div>
 
 <div class="form-group">
     <label> Adı Soyadı</label>
-    <input type="text" name="full_name" class="form-control" placeholder="Kullanıcı Adı Giriniz"></input>
+    <input type="text" name="full_name" class="form-control" placeholder="Ad Soyad Giriniz"></input>
 </div>
 <div class="form-group">
     <label > Mail</label>
-    <input type="text" name="mail" class="form-control" placeholder="Kullanıcı Adı Giriniz"></input>
+    <input type="text" name="mail" class="form-control" placeholder="Mail  Giriniz"></input>
 </div>
 <div class="form-group">
     <label > Telefon </label>
-    <input type="text" name="phone" class="form-control" placeholder="Kullanıcı Adı Giriniz"></input>
+    <input type="text" name="phone" class="form-control" placeholder="Telefon Numarası Giriniz"></input>
 </div>
 <div class="form-group">
 <button type="submit" class="btn btn-primary">Kaydet</button>

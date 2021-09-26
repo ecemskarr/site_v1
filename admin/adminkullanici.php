@@ -55,7 +55,7 @@ if(count($yetki)==0)
         <th>#ID</th>
         <th>Kullanıcı Adı</th>
         <th>Şifre</th>
-        <th>Yetki</th>
+        <th>Yetkiler</th>
         <th>Admin-Kullanıcı</th>
         <th>Adı Soyadı</th>
         <th>Mail</th>
@@ -75,7 +75,20 @@ if(count($yetki)==0)
                <td >
 <a href="sifre-guncelle.php?id=<?=$row->id?>"><i class="fa fa-key "></i></a>
 </td>
-               <td><?=$row->permissions?></td>
+<?php
+
+    $permissions = DB::get("SELECT * FROM permissions p inner join user_permissions u on p.id = u.permissionId where u.userId='$row->id'");
+ ?>
+               <td>
+                   <?php
+                   
+                    foreach($permissions as $item) {
+                        echo $item->title . '<br>';
+                    }
+
+                   ?>
+                </td>
+
                <td><?=$row->is_admin?></td>
                <td><?=$row->full_name?></td>
                <td><?=$row->mail?></td>
@@ -105,7 +118,8 @@ if(count($yetki)==0)
     <?php
    
 if(@$_GET["sil"])
-{
+{ $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");;
+    if(count ($yetki)>0){
     $id = $_GET["sil"];
     $sil=DB::prepare("DELETE FROM users WHERE id=:silinecekid");
     $sil->execute(["silinecekid"=> $id]);
@@ -116,13 +130,23 @@ if(@$_GET["sil"])
     
         echo "silme işlemi başarılı";
         echo "<script>";
-        echo "window.location.href='kullanici.php';";
+        echo "window.location.href='adminkullanici.php';";
         echo "</script>";
     }
     
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
 }
 
-
+}
 ?>
 
 <?php include 'include/footer.php'; ?>

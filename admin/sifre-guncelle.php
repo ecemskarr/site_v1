@@ -1,5 +1,9 @@
 
-<?php include 'include/header.php'; ?>
+<?php include 'include/header.php';
+
+$id=$_SESSION['id'];
+
+?>
 <section class="content-header">
         <h1>
         Admin Paneli
@@ -20,6 +24,8 @@ $calismaDetay=DB::getRow("SELECT * FROM users WHERE id=$Id");
 
 }
 if($_POST){
+    $yetki = DB::get("SELECT * FROM users WHERE id='$id' and is_admin='admin'");
+    if(count ($yetki)>0){
 $password=$_POST["password"];
 $kullanici_password=md5($password);
 
@@ -43,8 +49,18 @@ header("location:kullanici.php");
 else{
 echo "Bir hata oluştu";
 }
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";
 }
-
+}
 
 
 ?>
@@ -76,41 +92,13 @@ echo "Bir hata oluştu";
     
 
 
-    <?php 
 
 
 
 
 
-if($_POST)
-{  
-    $ekle=DB::prepare("UPDATE users SET 
-                     
-                     password=:password
-                    WHERE id=:id
-                   
-                    ");
-$ekle->execute([
-   
-    " password" => $_POST[" password"],
-    "id" => $_GET["id"]
-   
- 
-]);
-if($ekle){
-    echo "Güncelleme işlemi başarılı";
-}
-else{
-    echo "Bir hata oluştu";
-}
 
 
-
-}
-
-
-
-?>
 
 
 
