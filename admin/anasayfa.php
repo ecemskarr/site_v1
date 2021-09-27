@@ -1,6 +1,5 @@
 
 <?php include 'include/header.php'; 
-
 ?>
     <section class="content-header">
         <h1>

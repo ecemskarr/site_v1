@@ -75,13 +75,14 @@ if(count($yetki)!=0){
 
     $ekle=DB::prepare("INSERT INTO galeri SET 
     resim=:resim,
-   aciklama=:aciklama
+   aciklama=:aciklama,
+   durum=:durum
   
    ");
 $ekle->execute([
 "resim"  => $image_name,
-"aciklama" => $_POST["aciklama"]
-
+"aciklama" => $_POST["aciklama"],
+"durum" =>1
 
 ]);
        

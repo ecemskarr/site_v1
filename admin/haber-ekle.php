@@ -70,13 +70,15 @@ if($_POST)
     $ekle=DB::prepare("INSERT INTO haber SET 
                      resim=:resim,
                      baslik=:baslik,
-                     aciklama=:aciklama
+                     aciklama=:aciklama,
+                     durum=:durum
                    
                     ");
 $ekle->execute([
     "resim"  => $image_name,
     "baslik" => $_POST["baslik"],
-    "aciklama" => $_POST["aciklama"]
+    "aciklama" => $_POST["aciklama"],
+    "durum" =>1
    
  
 ]);
