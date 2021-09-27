@@ -103,25 +103,25 @@ if(count($yetki)>0) { ?>
     </section>
 
 
-    <?php
-   
- 
-  
-    
-   
+<?php
 if(@$_GET["sil"])
 {
     $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
     if(count($yetki)!=0){
         $id = $_GET["sil"];
-        $silinecekDosya = DB::getRow("SELECT * FROM galeri WHERE id='$id'");
-        unlink("galeri/" . $silinecekDosya->resim);
-        $sil=DB::prepare("DELETE FROM galeri WHERE id=:silinecekid");
-        $sil->execute(["silinecekid"=> $id]);
-        if($sil)
+        $update=DB::prepare("UPDATE galeri SET                  
+        durum=:durum
+WHERE id=:id
+
+");
+        $update->execute([
+            "durum" =>3, //durum 0 onay bekleyen, durum 1 onaylanan, durum 2 onaylanmadı, durum 3 silme onayı
+            "id"=>$id
+        ]);
+        if($update)
         {   
         
-            echo "silme işlemi başarılı";
+            echo "silme işlemi onaya gönderildi";
             echo "<script>";
             echo "window.location.href='galeri.php';";
             echo "</script>";
@@ -138,9 +138,7 @@ if(@$_GET["sil"])
           })
         </script>"; 
        }
-}
-   
-   
+} 
 ?>
 
 <?php include 'include/footer.php'; ?>

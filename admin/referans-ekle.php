@@ -79,13 +79,15 @@ if($image->processed)
     $ekle=DB::prepare("INSERT INTO referans SET 
                      resim=:resim,
                      kategori_id=:kategori_id,
-                     referansAd=:referansAd
+                     referansAd=:referansAd,
+                     durum=:durum
                    
                     ");
 $ekle->execute([
     "resim"  => $image_name,
     "kategori_id" => $_POST["kategori_id"],
     "referansAd" => $_POST["referansAd"],
+    "durum"=> 1
    
  
 ]);
@@ -99,6 +101,7 @@ else{
 }
 
 
+}
 }else{
     echo "<script>
     Swal.fire({
@@ -109,7 +112,6 @@ else{
       
       })
     </script>"; 
-}
 }
 }
 ?>

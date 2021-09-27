@@ -101,36 +101,42 @@ if(count($yetki)>0) { ?>
 </section>
 
 
-<?php 
-
+<?php
 if(@$_GET["sil"])
-{     $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
+{
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
     if(count($yetki)!=0){
-    $sil=DB::prepare("DELETE  FROM haber WHERE id=:silinecekid");
-    $sil->execute(["silinecekid"=> $_GET["sil"]]);
-    if($sil)
-    {
-        echo "silme işlemi başarılı";
-        echo "<script>";
-        echo "window.location.href='haber.php';";
-        echo "</script>";
-    }
-}else{
-    echo "<script>
-    Swal.fire({
-       
-        icon: 'error',
-        title: 'Yetkisiz işlem',
-        showConfirmButton: false
-      
-      })
-    </script>"; 
-}
+        $id = $_GET["sil"];
+        $update=DB::prepare("UPDATE haber SET                  
+        durum=:durum
+WHERE id=:id
 
-}
-
-
-
+");
+        $update->execute([
+            "durum" =>3, //durum 0 onay bekleyen, durum 1 onaylanan, durum 2 onaylanmadı, durum 3 silme onayı
+            "id"=>$id
+        ]);
+        if($update)
+        {   
+        
+            echo "silme işlemi onaya gönderildi";
+            echo "<script>";
+            echo "window.location.href='haber.php';";
+            echo "</script>";
+            
+        }
+    }else{
+        echo "<script>
+        Swal.fire({
+           
+            icon: 'error',
+            title: 'Yetkisiz işlem',
+            showConfirmButton: false
+          
+          })
+        </script>"; 
+       }
+} 
 ?>
 
 

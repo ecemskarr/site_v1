@@ -45,7 +45,7 @@ if(count($yetki)==0)
     <div class="col-md-12">
         <div class="row">
             <div class="box">
-                <div class="box-header">Galeri
+                <div class="box-header">Güncelleme İstekleri
                 </div>
                 <div class="box-body">
                     <table class="table table-sprited">
@@ -85,7 +85,50 @@ if(count($yetki)==0)
         </div>
     </div>
 
+    <div class="col-md-12">
+        <div class="row">
+            <div class="box">
+                <div class="box-header">Silme İstekleri
+                </div>
+                <div class="box-body">
+                    <table class="table table-sprited">
+                        <thead>
+                            <th>Silinecek ID</th>
+                            <th>Resim </th>
+                            <th>Açıklama</th>
+                            <th>İşlem</th>
+                        </thead>
+                        <tbody>
+                            <?php 
+       
+       $calismalarim = DB::get("select * from galeri where durum=3");
+       foreach($calismalarim as $row)
+       {
+           ?>
+                            <tr>
+                                <td><?=$row->id?></td>
+                                <td><img src="galeri/<?= $row->resim ?>" width=100></td>
+                                <td><?=$row->aciklama?></td>
+                                <td>
+                                    <a href="?silAdmin=<?=$row->id?>"><i
+                                            class="fa fa-check fa-lg"></i></a>
+       
+                                    <a href="?silIptal=<?=$row->id?>"onclick="return confirm('Silme işlemini iptal etmek istediğinize emin misiniz?');"><i class="fa fa-times fa-lg text-red"></i></a>
+
+                                </td>
+                            </tr>
+                            <?php
+       }
+       
+       ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 
 <?php
 if(@$_GET["sil"])
@@ -99,7 +142,7 @@ WHERE id=:id
 
 ");
         $update->execute([
-            "durum" =>2, //durum 0 onay bekleyen, durum 1 onaylanan, durum 2 onaylanmadı.
+            "durum" =>2, //durum 0 güncelleme onayı bekleyen, durum 1 onaylanan, durum 2 onaylanmadı, durum 3 silme onayı bekleyen.
             "id"=>$id
         ]);
         if($update)
@@ -138,6 +181,72 @@ WHERE id=:id
         if($update)
         {   
             echo "Onaylandı!!";
+            echo "<script>";
+            echo "window.location.href='galerionay.php';";
+            echo "</script>";
+            
+        }
+}else{
+    echo "<script>
+    Swal.fire({
+       
+        icon: 'error',
+        title: 'Yetkisiz işlem',
+        showConfirmButton: false
+      
+      })
+    </script>";  
+}
+}  
+
+
+if(@$_GET["silAdmin"])
+{
+    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
+    if(count($yetki)!=0){
+        $id = $_GET["silAdmin"];
+        $silinecekDosya = DB::getRow("SELECT * FROM galeri WHERE id='$id'");
+        unlink("galeri/" . $silinecekDosya->resim);
+        $sil=DB::prepare("DELETE FROM galeri WHERE id=:silinecekid");
+        $sil->execute(["silinecekid"=> $id]);
+        if($sil)
+        {   
+        
+            echo "silme işlemi başarılı";
+            echo "<script>";
+            echo "window.location.href='galerionay.php';";
+            echo "</script>";
+            
+        }
+    }else{
+        echo "<script>
+        Swal.fire({
+           
+            icon: 'error',
+            title: 'Yetkisiz işlem',
+            showConfirmButton: false
+          
+          })
+        </script>"; 
+       }
+} 
+
+if(@$_GET["silIptal"])
+{        if(count($yetki)>0)
+ {
+        $id = $_GET["silIptal"];
+        $update=DB::prepare("UPDATE galeri SET                  
+        durum=:durum
+WHERE id=:id
+
+");
+        $update->execute([
+            "durum" =>1, //durum 0 onay bekleyen, durum 1 onaylanan, durum 2 onaylanmadı.
+            "id"=>$id
+        ]);
+        if($update)
+        {   
+            echo "Silme reddedildi, tekrar yayına alındı!!";
             echo "<script>";
             echo "window.location.href='galerionay.php';";
             echo "</script>";

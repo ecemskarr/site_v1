@@ -73,7 +73,7 @@ if(count($yetki)>0) { ?>
                <td><?=$row->referans_id?></td>
                <td><?=$row->kategori_id?></td>
                <td><?=$row->referansAd?></td>
-               <td><img src="referanslar/<?= $row->resim ?>" width=100>></td>
+               <td><img src="referanslar/<?= $row->resim ?>" width=100></td>
                <td>
                   <a href="referans-guncelle.php?referans_id=<?=$row->referans_id?>"><i class="fa fa-edit text-primary"></i></a>
                   <?php
@@ -112,14 +112,19 @@ if(count($yetki)>0) { ?>
    
    $yetki = DB::get("SELECT * FROM user_permissions WHERE userId='$userId' and permissionId = 2 ");
    if(count($yetki)!=0){ 
-
-    $sil=DB::prepare("DELETE  FROM referans WHERE referans_id=:silinecekid");
-    $sil->execute(["silinecekid"=> $_GET["sil"]]);
-    if($sil)
+    $id=$_GET["sil"];
+    $update=DB::prepare("UPDATE referans SET 
+    durum=:durum WHERE 
+     referans_id=:referans_id");
+    $update->execute([
+        "durum" => 3,
+        "referans_id"=> $id
+    ]);
+    if($update)
     {
-        echo "silme işlemi başarılı";
+        echo "silme işlemi onaya gönderildi";
         echo "<script>";
-        echo "window.location.href='haber.php';";
+        echo "window.location.href='referans.php';";
         echo "</script>";
         
     }
